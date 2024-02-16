@@ -8,5 +8,5 @@ This application was developed using MVVM architecture and consists of two main 
 
 ## Before Running
 
-dart pub get
-dart run build_runner build
+- dart pub get
+- dart run build_runner build
