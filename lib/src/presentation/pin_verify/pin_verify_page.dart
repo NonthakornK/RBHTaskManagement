@@ -19,57 +19,81 @@ class _PinVerifyPageState extends State<PinVerifyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        minimum: const EdgeInsets.all(48),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            PinDisplay(header: _getPinHeader(), pinLength: pin.length),
-            const SizedBox(
-              height: 16,
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenSize.width * 0.125,
             ),
-            GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              mainAxisSpacing: 24,
-              crossAxisSpacing: 24,
-              crossAxisCount: 3,
-              children: List.generate(
-                12,
-                (index) {
-                  int pinNumber = index + 1;
-                  switch (pinNumber) {
-                    case >= 1 && <= 9:
-                      return NumpadButton(
-                        number: pinNumber,
-                        onPressed: () => _addPin(pinNumber),
-                      );
-                    case 10:
-                      return const SizedBox();
-                    case 11:
-                      pinNumber = 0;
-                      return NumpadButton(
-                        number: pinNumber,
-                        onPressed: () => _addPin(pinNumber),
-                      );
-                    case 12:
-                      return NumpadButton(
-                        number: -1,
-                        isBackSpace: true,
-                        onPressed: () {
-                          setState(() {
-                            if (pin.isNotEmpty) pin.removeLast();
-                          });
+            child: Column(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      _getPinHeader(),
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: PinDisplay(
+                    pinLength: pin.length,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Center(
+                    child: GridView.count(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      mainAxisSpacing: 24,
+                      crossAxisSpacing: 24,
+                      crossAxisCount: 3,
+                      children: List.generate(
+                        12,
+                        (index) {
+                          int pinNumber = index + 1;
+                          switch (pinNumber) {
+                            case >= 1 && <= 9:
+                              return NumpadButton(
+                                number: pinNumber,
+                                onPressed: () => _addPin(pinNumber),
+                              );
+                            case 10:
+                              return const SizedBox();
+                            case 11:
+                              pinNumber = 0;
+                              return NumpadButton(
+                                number: pinNumber,
+                                onPressed: () => _addPin(pinNumber),
+                              );
+                            case 12:
+                              return NumpadButton(
+                                number: -1,
+                                isBackSpace: true,
+                                onPressed: () {
+                                  setState(() {
+                                    if (pin.isNotEmpty) pin.removeLast();
+                                  });
+                                },
+                              );
+                            default:
+                              return const SizedBox();
+                          }
                         },
-                      );
-                    default:
-                      return const SizedBox();
-                  }
-                },
-              ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -132,49 +156,28 @@ class NumpadButton extends StatelessWidget {
 }
 
 class PinDisplay extends StatelessWidget {
-  final String header;
   final int pinLength;
 
   const PinDisplay({
     super.key,
-    required this.header,
     required this.pinLength,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            header,
-            style: Theme.of(context).textTheme.titleLarge,
-            textAlign: TextAlign.center,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(
+        6,
+        (index) => Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.deepPurple),
+            color: index < pinLength ? Colors.deepPurple : Colors.transparent,
+            shape: BoxShape.circle,
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(
-              6,
-              (index) => Expanded(
-                child: Container(
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.deepPurple),
-                    color: index < pinLength
-                        ? Colors.deepPurple
-                        : Colors.transparent,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

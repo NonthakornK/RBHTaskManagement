@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class SessionManager {
-  static const _durationTimeout = Duration(minutes: 10);
+  static const _durationTimeout = Duration(seconds: 10);
   static const _pinNumber = ['1', '2', '3', '4', '5', '6'];
 
   Timer? _timer;

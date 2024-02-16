@@ -36,8 +36,6 @@ class TaskListViewModel extends ChangeNotifier {
     try {
       final response =
           await _taskListRepository.getTaskList(_getString(group), offset);
-      /* final response =
-          await _taskListRepository.getTaskList("ABC", offset); */
       if (offset == 0) {
         _getSubject(group).add(response);
       } else {
