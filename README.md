@@ -10,3 +10,7 @@ This application was developed using MVVM architecture and consists of two main 
 
 - dart pub get
 - dart run build_runner build
+
+## Demo
+
+https://drive.google.com/file/d/19rObY007YDuLbMpUyI4qwKoUZktGXhCw/view?usp=sharing
